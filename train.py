@@ -1,7 +1,8 @@
 import joblib
 import pandas as pd
-from sklearn.ensemble import RandomForestClassifier
-from sklearn.metrics import accuracy_score, roc_auc_score
+import matplotlib.pyplot as plt
+from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import (classification_report,accuracy_score, confusion_matrix,roc_auc_score, ConfusionMatrixDisplay)
 from sklearn.model_selection import train_test_split
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import StandardScaler
@@ -27,14 +28,12 @@ pipeline = Pipeline(
         ('scaler', StandardScaler()),
         (
             'classifier',
-            RandomForestClassifier(
-                n_estimators=100, max_depth=5, random_state=42
-            ),
+            LogisticRegression(max_iter=300, random_state=42),
         ),
     ]
 )
 
-print('Melatih model Random Forest...')
+print('Melatih model logistic regression...')
 pipeline.fit(X_train, y_train)
 
 # Evaluasi metrik
@@ -44,9 +43,9 @@ y_pred_proba = pipeline.predict_proba(X_test)[:, 1]
 acc = accuracy_score(y_test, y_pred)
 auc = roc_auc_score(y_test, y_pred_proba)
 
-print('--- Hasil Evaluasi ---')
-print(f'Akurasi : {acc:.4f}')
-print(f'ROC-AUC : {auc:.4f}')
+print("═══ Logistic Regression ═══")
+print(classification_report(y_test, y_pred, target_names=["Healthy", "Heart Disease Risk"]))
+print(f"AUC-ROC: {roc_auc_score(y_test, y_pred_proba):.4f}")
 
 # Simpan Pipeline jika memenuhi syarat >= 0.70
 if auc >= 0.70 or acc >= 0.70:
@@ -57,3 +56,15 @@ if auc >= 0.70 or acc >= 0.70:
   )
 else:
   print('Gagal: Metrik belum mencapai 0.70.')
+
+
+#Confusion matrix
+fig, ax = plt.subplots(figsize=(6, 5))
+ConfusionMatrixDisplay.from_estimator(
+    pipeline, X_test, y_test,
+    display_labels=["Healthy", "Heart Disease Risk"],
+    ax=ax, colorbar=False, cmap="Blues"
+)
+ax.set_title("Logistic Regression")
+plt.tight_layout()
+plt.show()
