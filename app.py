@@ -5,9 +5,7 @@ import streamlit as st
 
 st.set_page_config(page_title="Prediksi Risiko Jantung", page_icon="❤️", layout="centered")
 
-# ------------------------------------------------------------------
 # Load model
-# ------------------------------------------------------------------
 @st.cache_resource
 def load_model():
     payload = joblib.load("model.joblib")
@@ -24,9 +22,7 @@ st.write(
 
 st.divider()
 
-# ------------------------------------------------------------------
 # Form input
-# ------------------------------------------------------------------
 with st.form("input_form"):
     col1, col2 = st.columns(2)
 
@@ -70,9 +66,7 @@ with st.form("input_form"):
 
     submitted = st.form_submit_button("🔍 Prediksi", use_container_width=True)
 
-# ------------------------------------------------------------------
 # Prediction
-# ------------------------------------------------------------------
 if submitted:
     input_dict = {
         "age": age,
