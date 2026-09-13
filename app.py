@@ -144,50 +144,6 @@ with st.sidebar:
 
     st.divider()
 
-    # ======================================================
-    # FEATURE IMPORTANCE
-    # ======================================================
-
-    st.markdown("### 📊 Feature Importance")
-
-    try:
-
-        classifier = pipeline.named_steps["classifier"]
-
-        importance = classifier.feature_importances_
-
-        importance_df = pd.DataFrame({
-            "Feature": features,
-            "Importance": importance
-        })
-
-        importance_df = importance_df.sort_values(
-            "Importance",
-            ascending=False
-        )
-
-        chart_data = importance_df.set_index("Feature")
-
-        st.bar_chart(
-            chart_data,
-            horizontal=True
-        )
-
-        most_important = importance_df.iloc[0]
-
-        st.caption(
-            f"Fitur paling berpengaruh adalah "
-            f"**{most_important['Feature']}** "
-            f"dengan importance "
-            f"**{most_important['Importance'] * 100:.1f}%**."
-        )
-
-    except Exception:
-
-        st.warning(
-            "Feature importance tidak tersedia."
-        )
-
     st.divider()
 
     st.caption(
