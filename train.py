@@ -47,6 +47,8 @@ pipeline = Pipeline(
 )
 
 print('Melatih model logistic regression...')
+print(f"Train: {X_train.shape[0]} | Test: {X_test.shape[0]}")
+print(f"Target rate train: {y_train.mean():.3f} | test: {y_test.mean():.3f}")
 pipeline.fit(X_train, y_train)
 
 # Evaluasi metrik
