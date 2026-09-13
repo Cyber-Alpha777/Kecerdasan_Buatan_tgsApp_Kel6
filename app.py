@@ -135,7 +135,7 @@ with st.sidebar:
     st.markdown("### 🤖 Model")
 
     st.info(
-        "Random Forest Classifier"
+        " Logistic Regression"
     )
 
     st.write(
@@ -581,7 +581,7 @@ with info2:
 
     st.metric(
         "Model",
-        "Random Forest"
+        "Logistic Regression"
     )
 
 
